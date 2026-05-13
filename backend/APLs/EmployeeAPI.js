@@ -1,5 +1,5 @@
 import exp from 'express'
-import { EmpModel } from '../models/empmodel.js'
+import { EmpModel } from '../models/Empmodel.js'
 
 
 

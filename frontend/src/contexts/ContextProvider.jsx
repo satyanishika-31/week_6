@@ -3,7 +3,7 @@ import  {createContext, useState } from 'react'
 export const counterContextObj=createContext()
 
 function ContextProvider({children}) {
-   const [counter,setCounter]=useState(10)
+   const [counter,setCounter]=useState(0)
    const changeCounter=()=>{
      setCounter(counter+1);
    };

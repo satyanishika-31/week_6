@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 
+const API_BASE_URL = ''
+
 function CreateEmp() {
 
   const [loading,setLoading]=useState(false)
@@ -16,7 +18,7 @@ function CreateEmp() {
     try{
       setLoading(true)
     //make HTTP POST req
-    let res= await fetch('http://localhost:4000/emp/emp',
+    let res= await fetch(`${API_BASE_URL}/emp/emp`,
     {
       method:"POST",
       headers:{"Content-Type": "application/json"},
@@ -29,7 +31,9 @@ function CreateEmp() {
     }
     else{
       let errorRes=await res.json()
-      throw new Error(errorRes.message || "Something went wrong")
+      const serverMsg = errorRes.message || "Something went wrong"
+      const serverErr = errorRes.error ? `: ${errorRes.error}` : ''
+      throw new Error(serverMsg + serverErr)
     }
 
   }catch(err){
@@ -47,8 +51,8 @@ function CreateEmp() {
     return <p className='text-red-500 text-4xl text-center'>{error.message}</p>
   
   return (
-    <div className='box-border shadow-2xl shadow-gray-400 bg-mauve-400 rounded-3xl max-w-svh m-auto p-16 mt-16'>
-      <h1 className='text-5xl text-center font-bold font-serif text-gray-600'>Create New Employee</h1>
+    <div className='box-border   m-auto  p-16 '>
+      <h1 className='text-5xl text-center font-bold font-serif text-[#103510] '>Create New Employee</h1>
       {/* form */}
       <form className='w-full max-w-md mx-auto p-5  ' onSubmit={handleSubmit(onFormSubmit)}>
         <input type='text' placeholder='Enter Name' {...register("name")} id='' className='mb-3 bg-white border p-3 w-full rounded-2xl' /> 
@@ -56,7 +60,7 @@ function CreateEmp() {
         <input type='tel' placeholder='Enter Mobile Number' {...register("mobile")} id='' className='mb-3 bg-white border p-3 w-full rounded-2xl' /> 
         <input type='text' placeholder='Enter Designation' {...register("designation")} id='' className='mb-3 bg-white border p-3 w-full rounded-2xl' /> 
         <input type='text' placeholder='Enter Company Name' {...register("companyName")} id='' className='mb-3 bg-white border p-3 w-full rounded-2xl' />
-        <button type='submit' className='mb-3 border rounded-2xl p-3 block mx-auto bg-mauve-200'>Add Emp</button> 
+        <button type='submit' className='mb-3 border rounded-2xl p-3 block mx-auto bg-[#103510]  text-amber-300'>Add Emp</button> 
       </form>
     </div>
   )

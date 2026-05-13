@@ -7,8 +7,13 @@ import { config } from 'dotenv'
 config();//process.env.port.env.DB_URL
 
 const app=exp()
+const frontendOrigins = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL || 'http://localhost:5173')
+	.split(',')
+	.map((origin) => origin.trim())
+	.filter(Boolean)
+
 app.use(cors({
-	origin:['http://localhost:5173']
+	origin: frontendOrigins.length === 1 ? frontendOrigins[0] : frontendOrigins
 }))
 //set a port number
 app.use(exp.json())
