@@ -37,7 +37,7 @@ function Home() {
             <p className='mb-4 text-lg font-semibold italic sm:text-xl'>Edit Employees</p>
             <NavLink to="listofemp" className="inline-flex w-full items-center justify-center rounded-full border px-4 py-3 text-sm font-semibold transition duration-300 sm:text-base">Edit Employees</NavLink>
           </div>
-          <div className='group relative box-border overflow-hidden shadow-[#fffff0] shadow-2xl bg-[#FEF8DF] mr-5 p-11 text-center transition duration-300 hover:-translate-y-1'>
+          <div className='group relative box-border overflow-hidden shadow-[#fffff0] shadow-2xl bg-[#FEF8DF] mr-5                                    p-11 text-center transition duration-300 hover:-translate-y-1'>
             <img src={img_4} alt="View employees" className='mx-auto h-28 w-28 object-contain transition duration-300 group-hover:scale-105 sm:h-32 sm:w-32' />
             <p className='mb-4 text-lg font-semibold italic sm:text-xl'>View Employees</p>
             <NavLink to="listofemp" className="inline-flex w-full items-center justify-center rounded-full border px-4 py-3 text-sm font-semibold transition duration-300 sm:text-base">View Employees</NavLink>
