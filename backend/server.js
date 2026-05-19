@@ -13,7 +13,9 @@ const frontendOrigins = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL |
 	.filter(Boolean)
 
 app.use(cors({
-	origin: frontendOrigins.length === 1 ? frontendOrigins[0] : frontendOrigins
+	origin: frontendOrigins.length === 1 ? frontendOrigins[0] : frontendOrigins,
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+	allowedHeaders: ['Content-Type', 'Authorization']
 }))
 //set a port number
 app.use(exp.json())
@@ -22,7 +24,7 @@ app.get('/health', (req, res) => {
 })
 
 //connect to db server.
-app.use("/emp",empApp)
+app.use('/api/employees', empApp)
 const port = process.env.PORT || process.env.port || 4000
 app.listen(port,()=>console.log(`server listening to port${port}..`))
 

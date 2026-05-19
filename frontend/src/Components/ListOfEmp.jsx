@@ -3,6 +3,24 @@ import { useNavigate } from "react-router"
 import axios from "axios"
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://week-6-2-n1un.onrender.com'
+const EMPLOYEE_API_URL = `${API_BASE_URL}/api/employees`
+
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+
+async function readJsonResponse(response) {
+  const contentType = response.headers.get('content-type') || ''
+  if (contentType.includes('application/json')) {
+    return response.json()
+  }
+
+  const text = await response.text()
+  throw new Error(text || `Request failed with status ${response.status}`)
+}
 
   function ListOfEmps() {
 
@@ -17,7 +35,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://week-6-2-n1un.onre
     }
     const deleteEmployBYId=async (id)=>{
       try{
-        let res=await axios.delete(`${API_BASE_URL}/emp/emp/${id}`)
+        let res=await apiClient.delete(`/api/employees/${id}`)
         if(res.status === 200){
           getEmps();
         }
@@ -29,12 +47,12 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://week-6-2-n1un.onre
 
     async function getEmps() {
       try{
-        let res = await fetch(`${API_BASE_URL}/emp/emp`)
+        let res = await fetch(EMPLOYEE_API_URL)
         if (res.status === 200) {
-          let resObj = await res.json()
+          let resObj = await readJsonResponse(res)
           setEmps(resObj.payload)
         } else {
-          let errRes = await res.json()
+          let errRes = await readJsonResponse(res)
           throw new Error(errRes.error ? `${errRes.message}: ${errRes.error}` : errRes.message || 'Failed to fetch')
         }
       }catch(err){

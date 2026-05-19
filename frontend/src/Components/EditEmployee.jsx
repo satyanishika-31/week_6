@@ -4,6 +4,12 @@ import { useEffect } from "react"
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://week-6-2-n1un.onrender.com'
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
 
 function EditEmployee() {
 
@@ -35,7 +41,7 @@ function EditEmployee() {
   const saveModifiedForm= async (modifiedEmp) => {
     try{
       //make http req to put
-      const res=await axios.put(`${API_BASE_URL}/emp/emp/${state._id}`,modifiedEmp)
+      const res=await apiClient.put(`/api/employees/${state._id}`,modifiedEmp)
       if(res.status===200)
         //navigate to list of employees
         navigate('/listofemp')

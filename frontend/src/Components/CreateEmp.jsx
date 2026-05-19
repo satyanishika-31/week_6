@@ -3,6 +3,17 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://week-6-2-n1un.onrender.com'
+const EMPLOYEE_API_URL = `${API_BASE_URL}/api/employees`
+
+async function readJsonResponse(response) {
+  const contentType = response.headers.get('content-type') || ''
+  if (contentType.includes('application/json')) {
+    return response.json()
+  }
+
+  const text = await response.text()
+  throw new Error(text || `Request failed with status ${response.status}`)
+}
 
 function CreateEmp() {
 
@@ -18,7 +29,7 @@ function CreateEmp() {
     try{
       setLoading(true)
     //make HTTP POST req
-    let res= await fetch(`${API_BASE_URL}/emp/emp`,
+    let res= await fetch(EMPLOYEE_API_URL,
     {
       method:"POST",
       headers:{"Content-Type": "application/json"},
@@ -30,7 +41,7 @@ function CreateEmp() {
       navigate("/listofemp")
     }
     else{
-      let errorRes=await res.json()
+      let errorRes=await readJsonResponse(res)
       const serverMsg = errorRes.message || "Something went wrong"
       const serverErr = errorRes.error ? `: ${errorRes.error}` : ''
       throw new Error(serverMsg + serverErr)

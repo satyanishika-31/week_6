@@ -5,7 +5,7 @@ import { EmpModel } from '../models/Empmodel.js'
 
 export const empApp=exp.Router()
 // create new employee
-empApp.post("/emp",async(req,res)=>{
+empApp.post("/",async(req,res)=>{
         //get new user obj from req
         const newemp=req.body
        
@@ -19,21 +19,21 @@ empApp.post("/emp",async(req,res)=>{
    
 })
 //getting all users
-empApp.get("/emp" ,async(req,res)=>{
+empApp.get("/" ,async(req,res)=>{
     
     let emplist=await EmpModel.find()
     res.status(200).json({message:"sucess",payload:emplist})
 })
 
 // eddit employee details
-empApp.put("/emp/:id",async(req,res)=>{
+empApp.put("/:id",async(req,res)=>{
     //get modified user from req
     const modifiedemp=req.body
     const eid= req.params.id
     const updatedemp=await EmpModel.findByIdAndUpdate(eid,{$set:{...modifiedemp}},{new:true,runValidators:true})
     res.status(200).json({message:"employe updater",payload:updatedemp})
 })
-empApp.delete('/emp/:id',async(req,res)=>{
+empApp.delete('/:id',async(req,res)=>{
 	//read id from req
 	const eid=req.params.id
 	//find user by id and delete
