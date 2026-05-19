@@ -7,7 +7,7 @@ import { config } from 'dotenv'
 config();//process.env.port.env.DB_URL
 
 const app=exp()
-const allowedOrigins = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL || 'https://week-6-frontend-git-main-satyanishika-31s-projects.vercel.app,http://localhost:5173')
+const allowedOrigins = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL || 'https://week-6-frontend-one.vercel.app')
 	.split(',')
 	.map((origin) => origin.trim())
 	.filter(Boolean)
