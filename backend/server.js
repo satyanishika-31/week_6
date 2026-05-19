@@ -7,10 +7,10 @@ import { config } from 'dotenv'
 config();//process.env.port.env.DB_URL
 
 const app=exp()
-const allowedOrigins = [
-	'https://week-6-frontend-git-main-satyanishika-31s-projects.vercel.app',
-	'http://localhost:5173'
-]
+const allowedOrigins = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL || 'https://week-6-frontend-git-main-satyanishika-31s-projects.vercel.app,http://localhost:5173')
+	.split(',')
+	.map((origin) => origin.trim())
+	.filter(Boolean)
 
 app.use(cors({
 	origin: (origin, callback) => {
@@ -22,7 +22,7 @@ app.use(cors({
 			return callback(null, true)
 		}
 
-		return callback(new Error(`CORS blocked for origin: ${origin}`))
+		return callback(null, false)
 	},
 	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 	allowedHeaders: ['Content-Type', 'Authorization']
@@ -73,10 +73,6 @@ app.use((err, req, res, next) => {
 
 	if (err.type === 'entity.parse.failed') {
 		return res.status(400).json({ message: 'invalid json body', error: err.message })
-	}
-
-	if (err.message && err.message.startsWith('CORS blocked for origin:')) {
-		return res.status(403).json({ message: 'cors blocked', error: err.message })
 	}
 
 	if (err.name === "ValidationError") {
