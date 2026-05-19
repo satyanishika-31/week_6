@@ -7,13 +7,23 @@ import { config } from 'dotenv'
 config();//process.env.port.env.DB_URL
 
 const app=exp()
-const frontendOrigins = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL || 'http://localhost:5173,https://week-6-frontend-one.vercel.app')
-	.split(',')
-	.map((origin) => origin.trim())
-	.filter(Boolean)
+const allowedOrigins = [
+	'https://week-6-frontend-git-main-satyanishika-31s-projects.vercel.app',
+	'http://localhost:5173'
+]
 
 app.use(cors({
-	origin: frontendOrigins.length === 1 ? frontendOrigins[0] : frontendOrigins,
+	origin: (origin, callback) => {
+		if (!origin) {
+			return callback(null, true)
+		}
+
+		if (allowedOrigins.includes(origin)) {
+			return callback(null, true)
+		}
+
+		return callback(new Error(`CORS blocked for origin: ${origin}`))
+	},
 	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 	allowedHeaders: ['Content-Type', 'Authorization']
 }))
@@ -37,6 +47,10 @@ async function connectDB(){
 	}
 }
 connectDB()
+// json 404 for unknown API routes
+app.use((req, res) => {
+	res.status(404).json({ message: 'route not found', error: 'Not Found' })
+})
 //error handling middleware
 app.use((err, req, res, next) => {
 	console.log(err.name, err.message)
