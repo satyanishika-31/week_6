@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import axios from "axios"
 
-const API_BASE_URL = ''
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://week-6-2-n1un.onrender.com'
 
   function ListOfEmps() {
 
@@ -17,7 +17,7 @@ const API_BASE_URL = ''
     }
     const deleteEmployBYId=async (id)=>{
       try{
-        let res=await axios.delete(`/emp/emp/${id}`)
+        let res=await axios.delete(`${API_BASE_URL}/emp/emp/${id}`)
         if(res.status === 200){
           getEmps();
         }
@@ -29,7 +29,7 @@ const API_BASE_URL = ''
 
     async function getEmps() {
       try{
-        let res = await fetch(`/emp/emp`)
+        let res = await fetch(`${API_BASE_URL}/emp/emp`)
         if (res.status === 200) {
           let resObj = await res.json()
           setEmps(resObj.payload)
