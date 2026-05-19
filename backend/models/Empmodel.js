@@ -9,7 +9,9 @@ const Empmodel = new Schema({
 	email:{
 		type:String,
 		required:[true,"email is required"],
-		unique:[true,"email already existed"]
+		unique:true,
+		trim:true,
+		lowercase:true
 	},
 	
 	designation:{
